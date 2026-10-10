@@ -1,0 +1,162 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  TECHNICIAN
+}
+
+enum JobStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum JobPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model User {
+  id           String             @id @default(uuid())
+  email        String             @unique
+  passwordHash String
+  name         String
+  role         Role               @default(TECHNICIAN)
+  phone        String?
+  isActive     Boolean            @default(true)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  technicianProfile TechnicianProfile?
+  createdJobs       Job[]              @relation("JobCreator")
+  assignedJobs      Job[]              @relation("JobAssignee")
+  notes             JobNote[]
+  attachments       JobAttachment[]
+  activityLogs      ActivityLog[]
+
+  @@index([role])
+  @@index([email])
+}
+
+model TechnicianProfile {
+  id                 String   @id @default(uuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills             String   @default("General Maintenance")
+  vehicleNumber      String?
+  serviceZone        String?  @default("North Metro")
+  maxConcurrentJobs  Int      @default(4)
+  isAvailable        Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Customer {
+  id         String   @id @default(uuid())
+  name       String
+  company    String?
+  email      String
+  phone      String
+  address    String
+  city       String   @default("Metro Area")
+  state      String   @default("CA")
+  postalCode String   @default("94103")
+  latitude   Float?
+  longitude  Float?
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  jobs Job[]
+
+  @@index([name])
+  @@index([email])
+}
+
+model Job {
+  id                   String        @id @default(uuid())
+  jobNumber            String        @unique
+  title                String
+  description          String?
+  customerId           String
+  customer             Customer      @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  assignedTechnicianId String?
+  assignedTechnician   User?         @relation("JobAssignee", fields: [assignedTechnicianId], references: [id], onDelete: SetNull)
+  serviceAddress       String
+  latitude             Float?
+  longitude            Float?
+  priority             JobPriority   @default(MEDIUM)
+  status               JobStatus     @default(OPEN)
+  scheduledStart       DateTime?
+  dueDate              DateTime?
+  startedAt            DateTime?
+  completedAt          DateTime?
+  createdById          String
+  createdBy            User          @relation("JobCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  notes        JobNote[]
+  attachments  JobAttachment[]
+  activityLogs ActivityLog[]
+
+  @@index([status])
+  @@index([priority])
+  @@index([assignedTechnicianId])
+  @@index([customerId])
+  @@index([dueDate])
+}
+
+model JobNote {
+  id         String   @id @default(uuid())
+  jobId      String
+  job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  authorId   String
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  content    String
+  isInternal Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([jobId])
+}
+
+model JobAttachment {
+  id         String   @id @default(uuid())
+  jobId      String
+  job        Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  uploaderId String
+  uploader   User     @relation(fields: [uploaderId], references: [id], onDelete: Restrict)
+  fileName   String
+  fileUrl    String
+  fileType   String
+  fileSize   Int
+  createdAt  DateTime @default(now())
+
+  @@index([jobId])
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  action    String
+  metadata  String?
+  createdAt DateTime @default(now())
+
+  @@index([jobId])
+  @@index([createdAt])
+}
