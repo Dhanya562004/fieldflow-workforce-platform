@@ -34,11 +34,12 @@ def render_sidebar() -> str:
 
         # Live connectivity badge
         if is_connected:
+            target_label = "Vercel Cloud" if "vercel.app" in client.base_url else ("Port 5000" if "5000" in client.base_url else "Online")
             st.markdown(
-                """
+                f"""
                 <div class="api-status-banner">
                     <span class="api-status-dot"></span>
-                    <span>REST API Live (Port 5000)</span>
+                    <span>REST API Live ({target_label})</span>
                 </div>
                 """,
                 unsafe_allow_html=True,

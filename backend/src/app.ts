@@ -40,8 +40,20 @@ export const createApp = () => {
   const uploadDir = process.env.UPLOAD_DIR || './uploads';
   app.use('/uploads', express.static(path.resolve(uploadDir)));
 
-  // Root Health Check
+  // Root Information Endpoint
+  app.get('/', (_req, res) => {
+    res.json({
+      name: 'FieldFlow Operations REST API',
+      status: 'online',
+      version: '1.0.0',
+      documentation: '/api/docs',
+      health: '/health',
+    });
+  });
+
+  // Health Check Endpoints (both /health and /api/health)
   app.use('/health', healthRoutes);
+  app.use('/api/health', healthRoutes);
 
   // API Routes
   app.use('/api/auth', authRoutes);

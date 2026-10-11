@@ -3,11 +3,35 @@ import requests
 import streamlit as st
 from typing import Dict, Any, Optional, List
 
-DEFAULT_API_URL = os.getenv("API_BASE_URL", "http://localhost:5000/api")
+def resolve_api_base_url() -> str:
+    """Determine the active REST API URL from session, environment, secrets, or default."""
+    if "custom_api_base_url" in st.session_state and st.session_state["custom_api_base_url"]:
+        return st.session_state["custom_api_base_url"].rstrip("/")
+
+    env_url = os.getenv("API_BASE_URL")
+    if env_url:
+        return env_url.rstrip("/")
+
+    try:
+        if hasattr(st, "secrets") and "API_BASE_URL" in st.secrets:
+            return st.secrets["API_BASE_URL"].rstrip("/")
+    except Exception:
+        pass
+
+    # Quick probe if local port 5000 is running
+    try:
+        r = requests.get("http://localhost:5000/health", timeout=0.4)
+        if r.status_code == 200:
+            return "http://localhost:5000/api"
+    except Exception:
+        pass
+
+    # Default to production Vercel backend
+    return "https://fieldflow-backend.vercel.app/api"
 
 class FieldFlowApiClient:
-    def __init__(self, base_url: str = DEFAULT_API_URL):
-        self.base_url = base_url.rstrip("/")
+    def __init__(self, base_url: Optional[str] = None):
+        self.base_url = (base_url or resolve_api_base_url()).rstrip("/")
         self.timeout = 8.0
 
     @property
@@ -26,13 +50,15 @@ class FieldFlowApiClient:
 
     def check_health(self) -> Dict[str, Any]:
         root_url = self.base_url.replace("/api", "")
-        try:
-            r = requests.get(f"{root_url}/health", timeout=3.0)
-            if r.status_code == 200:
-                return {"connected": True, "data": r.json()}
-            return {"connected": False, "error": f"HTTP {r.status_code}"}
-        except Exception as e:
-            return {"connected": False, "error": str(e)}
+        # Probe root /health and /api/health
+        for url in [f"{root_url}/health", f"{self.base_url}/health"]:
+            try:
+                r = requests.get(url, timeout=4.0)
+                if r.status_code == 200:
+                    return {"connected": True, "data": r.json(), "url": url}
+            except Exception:
+                continue
+        return {"connected": False, "error": "Backend health probe unreachable"}
 
     def login(self, email: str, password: str) -> Dict[str, Any]:
         try:

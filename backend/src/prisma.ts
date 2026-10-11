@@ -11,8 +11,9 @@ export const prisma =
     log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
   });
 
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.prismaGlobal = prisma;
-}
+// Cache instance on global object in both serverless and dev environments
+// to prevent multiple PrismaClient instances during container reuse
+globalThis.prismaGlobal = prisma;
+
 
 export default prisma;
