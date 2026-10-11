@@ -3,17 +3,23 @@ import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
-async function main() {
+export async function seedDatabase(force: boolean = false) {
+  const existingUsers = await prisma.user.count().catch(() => 0);
+  if (!force && existingUsers > 0) {
+    console.log(`Database already populated (${existingUsers} users found). Preserving existing records.`);
+    return { seeded: false, userCount: existingUsers };
+  }
+
   console.log('Seeding FieldFlow operations database...');
 
-  // Clean existing tables in reverse dependency order
-  await prisma.activityLog.deleteMany();
-  await prisma.jobAttachment.deleteMany();
-  await prisma.jobNote.deleteMany();
-  await prisma.job.deleteMany();
-  await prisma.customer.deleteMany();
-  await prisma.technicianProfile.deleteMany();
-  await prisma.user.deleteMany();
+  // Clean existing tables only if database is being cleanly seeded
+  await prisma.activityLog.deleteMany().catch(() => {});
+  await prisma.jobAttachment.deleteMany().catch(() => {});
+  await prisma.jobNote.deleteMany().catch(() => {});
+  await prisma.job.deleteMany().catch(() => {});
+  await prisma.customer.deleteMany().catch(() => {});
+  await prisma.technicianProfile.deleteMany().catch(() => {});
+  await prisma.user.deleteMany().catch(() => {});
 
   const salt = await bcrypt.genSalt(10);
   const adminPassword = await bcrypt.hash('Admin123!', salt);
@@ -545,7 +551,7 @@ async function main() {
   console.log(`- Created ${jobsData.length} Realistic Operational Jobs with Notes and Audit Trails`);
 }
 
-main()
+seedDatabase()
   .catch((e) => {
     console.error('Seeding error:', e);
     process.exit(1);

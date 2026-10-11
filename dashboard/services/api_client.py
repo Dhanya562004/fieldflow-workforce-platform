@@ -81,13 +81,27 @@ class FieldFlowApiClient:
         except Exception as e:
             return {"success": False, "error": f"API Connection Error: {str(e)}"}
 
-    def ensure_authenticated(self) -> bool:
+    def ensure_authenticated(self, force: bool = False) -> bool:
         """Automatically authenticate using demo manager credentials if token missing."""
-        if self.token and st.session_state.get("current_user"):
+        if not force and self.token and st.session_state.get("current_user"):
             return True
-        # Attempt auto-login with standard dispatcher credentials
+        # Attempt login with standard dispatcher credentials
         res = self.login("manager@fieldflow.io", "Manager123!")
-        return res.get("success", False)
+        if res.get("success"):
+            return True
+
+        # If login failed (e.g. database not seeded on fresh deployment), trigger bootstrap probe and retry
+        try:
+            requests.get(f"{self.base_url}/bootstrap", timeout=15.0)
+            res_retry = self.login("manager@fieldflow.io", "Manager123!")
+            if res_retry.get("success"):
+                return True
+        except Exception:
+            pass
+
+        # Fallback: attempt admin account
+        res_admin = self.login("admin@fieldflow.io", "Admin123!")
+        return res_admin.get("success", False)
 
     # --- Dashboard Metrics ---
     def get_summary(self) -> Dict[str, Any]:

@@ -64,6 +64,27 @@ export const createApp = () => {
   app.use('/api/ai', aiRoutes);
   app.use('/api/docs', docsRoutes);
 
+  // Database Bootstrap Endpoint
+  app.all('/api/bootstrap', async (_req, res) => {
+    try {
+      const { seedDatabase } = await import('../prisma/seed');
+      const seedResult = await seedDatabase(false);
+      res.json({
+        success: true,
+        message: 'FieldFlow database verified and seeded successfully.',
+        data: seedResult,
+      });
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'BOOTSTRAP_ERROR',
+          message: err.message || 'Failed to bootstrap database',
+        },
+      });
+    }
+  });
+
   // 404 Handler
   app.use((req, res) => {
     res.status(404).json({

@@ -74,23 +74,36 @@ def render_sidebar() -> str:
         st.markdown("<div style='height: 24px;'></div>", unsafe_allow_html=True)
 
         # Authenticated user card
-        user = st.session_state.get("current_user", {})
-        user_name = user.get("name", "Alex Rivera (Dispatcher)")
-        user_role = user.get("role", "MANAGER")
-        user_initials = "".join([part[0] for part in user_name.split()[:2]]).upper()
+        user = st.session_state.get("current_user")
+        if client.token and user:
+            user_name = user.get("name", "Alex Rivera (Dispatcher)")
+            user_role = user.get("role", "MANAGER")
+            user_initials = "".join([part[0] for part in user_name.split()[:2]]).upper()
 
-        st.markdown(
-            f"""
-            <div class="user-profile-badge">
-                <div class="user-avatar">{user_initials}</div>
-                <div style="overflow: hidden;">
-                    <div style="font-weight: 600; font-size: 0.825rem; color: #0f172a; text-overflow: ellipsis; white-space: nowrap;">{user_name}</div>
-                    <div style="font-size: 0.725rem; color: #64748b;">Role: <strong>{user_role}</strong></div>
+            st.markdown(
+                f"""
+                <div class="user-profile-badge">
+                    <div class="user-avatar">{user_initials}</div>
+                    <div style="overflow: hidden;">
+                        <div style="font-weight: 600; font-size: 0.825rem; color: #0f172a; text-overflow: ellipsis; white-space: nowrap;">{user_name}</div>
+                        <div style="font-size: 0.725rem; color: #64748b;">Role: <strong>{user_role}</strong></div>
+                    </div>
                 </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+                """,
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                """
+                <div style="background:#fffbeb; border:1px solid #fef3c7; border-radius:6px; padding:8px 10px; font-size:0.75rem; color:#b45309; margin-bottom:8px;">
+                    <strong>⚠️ Session Disconnected</strong><br/>Authentication token required
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if st.button("🔑 Login as Manager", use_container_width=True, type="primary"):
+                client.ensure_authenticated(force=True)
+                st.rerun()
 
         col1, col2 = st.columns(2)
         with col1:

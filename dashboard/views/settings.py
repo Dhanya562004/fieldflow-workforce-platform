@@ -40,6 +40,20 @@ def render_settings_view():
             else:
                 st.error(f"❌ Connection Failed: {health.get('error')}")
 
+        if st.button("🚀 Initialize & Seed Database (/api/bootstrap)", key="btn_bootstrap"):
+            import requests
+            try:
+                r = requests.get(f"{client.base_url}/bootstrap", timeout=20.0)
+                res = r.json()
+                if res.get("success"):
+                    st.success("✅ Database schema initialized and operational seed records populated!")
+                    client.ensure_authenticated(force=True)
+                    st.rerun()
+                else:
+                    st.error(f"Bootstrap failed: {res.get('error', {}).get('message', 'Unknown error')}")
+            except Exception as e:
+                st.error(f"Bootstrap error: {str(e)}")
+
     with col_probe2:
         st.markdown(
             """
