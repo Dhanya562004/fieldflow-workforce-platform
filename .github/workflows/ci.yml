@@ -26,6 +26,11 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      DATABASE_URL: postgresql://postgres:postgrespassword@localhost:5432/fieldflow_test?schema=public
+      JWT_SECRET: ci_test_secret_key_12345
+      NODE_ENV: test
+
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
@@ -43,6 +48,8 @@ jobs:
 
       - name: Validate Prisma Schema
         working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql://postgres:postgrespassword@localhost:5432/fieldflow_test?schema=public
         run: npx prisma validate
 
       - name: Apply Database Migrations & Push Schema
