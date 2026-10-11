@@ -11,6 +11,7 @@ import dashboardRoutes from './routes/dashboard.routes';
 import aiRoutes from './routes/ai.routes';
 import healthRoutes from './routes/health.routes';
 import docsRoutes from './routes/docs.routes';
+import { uploadDir } from './middleware/upload.middleware';
 
 export const createApp = () => {
   const app = express();
@@ -37,7 +38,6 @@ export const createApp = () => {
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
   // Static files for photo uploads
-  const uploadDir = process.env.UPLOAD_DIR || './uploads';
   app.use('/uploads', express.static(path.resolve(uploadDir)));
 
   // Root Information Endpoint

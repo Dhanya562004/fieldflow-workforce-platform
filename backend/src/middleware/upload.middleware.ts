@@ -2,14 +2,30 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-const uploadDir = process.env.UPLOAD_DIR || './uploads';
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+// On Vercel serverless environments, the root filesystem is read-only.
+// We use the ephemeral writable /tmp directory in serverless environments.
+const isVercel = Boolean(process.env.VERCEL);
+export const uploadDir =
+  process.env.UPLOAD_DIR || (isVercel ? path.join('/tmp', 'uploads') : './uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+} catch (err) {
+  console.warn(`[WARN] Failed to initialize upload directory (${uploadDir}):`, err);
 }
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
+  destination: (_req, _file, cb) => {
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+    } catch (err) {
+      cb(err as Error, uploadDir);
+    }
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
