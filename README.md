@@ -1,286 +1,249 @@
-# FieldFlow — AI-Powered Field Operations & Workforce Management Platform
+# ⚡ FieldFlow — AI-Powered Field Operations & Workforce Management Platform
 
-[![CI Pipeline](https://github.com/Dhanya562004/fieldflow-workforce-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/Dhanya562004/fieldflow-workforce-platform/actions)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue.svg)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-22.x-green.svg)](https://nodejs.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791.svg)](https://www.postgresql.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748.svg)](https://www.prisma.io/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.38-FF4B4B.svg)](https://streamlit.io/)
-[![React Native](https://img.shields.io/badge/React%20Native-Expo%2051-61DAFB.svg)](https://reactnative.dev/)
+<p align="center">
+  <img src="https://img.shields.io/badge/Streamlit%20Cloud-Live%20Console-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit Cloud" />
+  <img src="https://img.shields.io/badge/Vercel-Backend%20Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+  <img src="https://img.shields.io/badge/Neon-Serverless%20PostgreSQL-00E599?style=for-the-badge&logo=postgresql&logoColor=black" alt="Neon Postgres" />
+  <img src="https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/React%20Native-Expo%2051-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React Native" />
+</p>
 
-FieldFlow is an enterprise-grade field operations and workforce dispatching platform engineered for technical service organizations (commercial HVAC, high-voltage electrical, hydronics, life safety, facilities maintenance).
+<p align="center">
+  <strong>An enterprise-grade field operations, dispatching, and mobile workforce execution platform built for high-reliability technical service teams (HVAC, Electrical, Facilities, Hydronics, Life Safety).</strong>
+</p>
 
-It provides an end-to-end operational loop between **Operations Managers / Dispatchers** (using a bespoke Streamlit Web Console) and **Field Technicians** (using an Expo React Native mobile application), backed by a unified **Node.js Express + TypeScript REST API** and **PostgreSQL with Prisma ORM**.
-
----
-
-## 1. The Operational Problem Solved
-
-Field service organizations suffer from three critical bottlenecks:
-1. **SLA Blind Spots**: Dispatchers manually balance incoming work orders across disparate spreadsheets, resulting in overdue tickets and missed enterprise contractual response times.
-2. **Technician Tenant Leakage & Double Dispatch**: Lack of strict role-based access control and state machine validations leads to inconsistent job statuses, overlapping assignments, and unauthorized data access.
-3. **Information Bottlenecks**: Important on-site diagnostic commentary, error codes, and parts data stay trapped in text messages rather than being synthesized into structured job histories and actionable priorities.
-
-FieldFlow solves this with strict relational modeling, tenant isolation, live SLA tracking, automated load balancing, and AI-assisted priority recommendation and field note synthesis.
+<p align="center">
+  <a href="https://fieldflow-workforce-platform-h6ijvnrlrz9pvztt2vvhd9.streamlit.app/"><strong>🌐 Open Live Operations Console »</strong></a> •
+  <a href="https://fieldflow-backend.vercel.app/health"><strong>📊 Live API Health Check »</strong></a> •
+  <a href="https://fieldflow-backend.vercel.app/api/docs"><strong>📑 Swagger API Explorer »</strong></a> •
+  <a href="https://github.com/Dhanya562004/fieldflow-workforce-platform"><strong>💻 GitHub Repository »</strong></a>
+</p>
 
 ---
 
-## 2. Architecture Diagram
+## 🌟 Live Cloud Deployments
+
+| Component | Cloud Host | Live URL | Status |
+| :--- | :--- | :--- | :--- |
+| **Operations Web Console** | Streamlit Community Cloud | [fieldflow-workforce-platform.streamlit.app](https://fieldflow-workforce-platform-h6ijvnrlrz9pvztt2vvhd9.streamlit.app/) | ![Streamlit](https://img.shields.io/badge/Status-Online-brightgreen) |
+| **REST API Gateway** | Vercel Serverless | [fieldflow-backend.vercel.app](https://fieldflow-backend.vercel.app) | ![Vercel](https://img.shields.io/badge/Status-Online-brightgreen) |
+| **System Health Probe** | Vercel Serverless | [fieldflow-backend.vercel.app/health](https://fieldflow-backend.vercel.app/health) | ![Health](https://img.shields.io/badge/Status-200%20OK-brightgreen) |
+| **Interactive API Explorer** | OpenAPI 3.0 / Swagger UI | [fieldflow-backend.vercel.app/api/docs](https://fieldflow-backend.vercel.app/api/docs) | ![Swagger](https://img.shields.io/badge/Specs-OpenAPI%203.0-orange) |
+| **Relational Database** | Neon PostgreSQL | Cloud Serverless PostgreSQL 16 (AWS US-East) | ![Postgres](https://img.shields.io/badge/Database-Connected-blue) |
+
+---
+
+## 🔑 Demo Access & Pre-Seeded Roles
+
+The production database is pre-seeded with realistic commercial facilities accounts, 4 licensed technicians, and 16 operational work orders across all lifecycle stages. You can log into the web dashboard or mobile app using these credentials:
+
+| Role | User Name | Email | Password | Primary Permissions |
+| :--- | :--- | :--- | :--- | :--- |
+| **Operations Manager (Default)** | Alex Rivera | `manager@fieldflow.io` | `Manager123!` | Work Order Dispatching, Assignment, Calendar, Customer Registry, AI Triage |
+| **VP Operations (Admin)** | Sarah Jenkins | `admin@fieldflow.io` | `Admin123!` | Full Platform Administration, Analytics, System Configuration |
+| **Lead HVAC Technician** | Marcus Vance | `marcus.vance@fieldflow.io` | `Tech123!` | Mobile Work Orders, On-Site Start/Complete, Diagnostic Notes (VAN-101) |
+| **High Voltage Electrician** | Elena Rodriguez | `elena.rodriguez@fieldflow.io` | `Tech123!` | Assigned Field Work Orders, Status Transitions (VAN-104) |
+| **Commercial Plumber / Hydronics** | David Chen | `david.chen@fieldflow.io` | `Tech123!` | Backflow Inspections, Photo Logs, Job Sign-offs (TRUCK-202) |
+| **Life Safety Specialist** | Sam Okafor | `sam.okafor@fieldflow.io` | `Tech123!` | Sprinkler & Fire Safety Work Orders (VAN-108) |
+
+---
+
+## 🚀 Key Platform Highlights
 
 ```text
-                  Streamlit Operations Console (Python)
-                  - Polished Enterprise SaaS UI (Inter typography)
-                  - Real-time Plotly Analytics (14-day velocity, load balance)
-                  - Dispatching, Technicians, Customers, SLA Alerts
-                  - AI Triage & Note Synthesizer Interface
-                                    |
-                                    | HTTPS REST API (JWT RBAC)
-                                    v
-React Native Expo Mobile -----------+-- Express REST API (TypeScript)
-- Field Technicians                 |   - Zod Request Schema Validation
-- Assigned Job Filter               |   - Role-Based Access Control (ADMIN, MANAGER, TECHNICIAN)
-- Start / Complete Job Dispatch     |   - Strict State Machine Transitions
-- Photo & Diagnostic Notes Log      |   - Centralized Error Handling & Structured Audit Logs
-- Hardware Token Storage (SecureStore)  - Multer Photo Attachments
-                                    |   - OpenAPI 3.0 / Swagger Interactive Explorer
-                                    |
-                                    +-- AI Provider Adapter
-                                    |   - Google Gemini 1.5 Flash
-                                    |   - Deterministic Fallback Rule Engine
-                                    |
-                                    v
-                           PostgreSQL 16 + Prisma ORM
-                           - Relational Data Integrity
-                           - Composite Indexes & Audit Logs
+ ┌───────────────────────────────────────────────────────────────────────────────────┐
+ │                                 FieldFlow Platform                                │
+ ├────────────────────────┬─────────────────────────┬────────────────────────────────┤
+ │   Streamlit Console    │   React Native Mobile   │    Express + Prisma Engine     │
+ │  • Real-Time Plotly    │  • Expo SDK 51          │  • Strict State Machine        │
+ │  • SLA Risk Auditor    │  • SecureStore Hardware │  • Zod Contract Validation     │
+ │  • Interactive Triage  │  • Fast Photo Logging   │  • Tenant Isolation RBAC       │
+ │  • Capacity Heatmaps   │  • One-Tap Dispatches   │  • Gemini Flash / Fallback AI  │
+ └────────────────────────┴─────────────────────────┴────────────────────────────────┘
 ```
 
-Both the Web Dashboard and the Mobile App interact with the **exact same backend API and database**.
+1. **Closed-Loop Dispatching & Lifecycle State Machine**:
+   - Strict forward-only job lifecycle: `OPEN` ➔ `ASSIGNED` ➔ `IN_PROGRESS` ➔ `COMPLETED` (or `CANCELLED`).
+   - Prevents tenant leakage: Technicians can only access work orders explicitly assigned to them.
+2. **Real-Time Operational Analytics (Streamlit)**:
+   - 14-day cumulative velocity charts, status breakdown donuts, and technician workload capacity bars.
+   - Live search, filtering by priority, technician, and SLA breach proximity.
+3. **Field Technician Mobile Experience (React Native + Expo)**:
+   - Hardware-encrypted JWT token persistence via `Expo SecureStore`.
+   - On-site arrival timestamping, diagnostic notes timeline, and customer contact quick-dial.
+4. **AI-Assisted Operational Intelligence**:
+   - **Priority Triage**: Evaluates symptom telemetry and contractual SLA tiers using Google Gemini Flash (with automated deterministic fallback).
+   - **Executive Field Note Synthesizer**: Condenses dense diagnostic commentary into actionable customer summaries.
 
 ---
 
-## 3. Technology Stack
+## 🏛️ System Architecture
+
+```text
+                           ┌────────────────────────────────────────┐
+                           │      Streamlit Operations Console      │
+                           │       (Python 3.11+ / Streamlit)       │
+                           │   - Plotly Analytics & KPI Badges      │
+                           │   - Dispatching, Calendar, Customers   │
+                           │   - AI Triage & Note Summarization     │
+                           └──────────────────┬─────────────────────┘
+                                              │
+                                              │ HTTPS / JSON (JWT RBAC)
+                                              ▼
+┌───────────────────────────┐      ┌────────────────────────────────────────┐
+│  React Native Mobile App  │      │       Node.js Express REST API         │
+│  (Expo SDK 51 / TS)       │─────▶│       (TypeScript / Vercel Serverless) │
+│  - Offline Token Storage  │      │   - Zod Schema Validation Middleware   │
+│  - Assigned Jobs Filter   │      │   - Role-Based Access Control (RBAC)   │
+│  - One-Tap Status Update  │      │   - OpenAPI 3.0 / Swagger Interactive  │
+│  - Field Notes & Photos   │      │   - Google Gemini AI Adapter           │
+└───────────────────────────┘      └──────────────────┬─────────────────────┘
+                                                      │
+                                                      │ Prisma ORM 5.22
+                                                      ▼
+                                   ┌────────────────────────────────────────┐
+                                   │      Neon Serverless PostgreSQL        │
+                                   │   - Relational Data Integrity          │
+                                   │   - Strict Foreign Key Cascades        │
+                                   │   - Audit Logs & Composite Indexes     │
+                                   └────────────────────────────────────────┘
+```
+
+---
+
+## 🛠️ Technology Stack
 
 ### Backend API
-- **Runtime**: Node.js (v20+ / v22+)
+- **Runtime**: Node.js 22.x
 - **Framework**: Express with TypeScript 5.6
-- **ORM & Database**: Prisma ORM with PostgreSQL 16
-- **Validation**: Zod schema validation for all endpoints
+- **Database & ORM**: PostgreSQL 16 (Neon Serverless) with Prisma ORM 5.22
+- **Validation**: Zod schema validation for all incoming payloads
 - **Security**: JWT authentication (HMAC-SHA256), bcryptjs password hashing, Helmet headers, CORS
 - **Documentation**: OpenAPI 3.0 specification & Swagger UI explorer at `/api/docs`
 - **Testing**: Jest, Supertest, ts-jest (27 automated integration & unit tests)
 
-### Web Dashboard
-- **Language**: Python 3.11+ / 3.13
-- **Framework**: Streamlit
-- **Data & Charts**: Pandas, Plotly Express & Graph Objects
-- **Styling**: Injected custom CSS implementing an 8-point enterprise design system (slate, navy, teal, white surfaces, subtle shadows, status pills)
+### Operations Web Console
+- **Framework**: Streamlit 1.38+ (Python 3.11+)
+- **Data Visualization**: Pandas, Plotly Express & Graph Objects
+- **Design System**: Tailored enterprise B2B SaaS theme with Inter typography, slate surfaces, and live status badges
 - **Testing**: Pytest (7 unit and integration tests)
 
-### Mobile Application
+### Field Mobile App
 - **Framework**: React Native with Expo SDK 51 & TypeScript
 - **Navigation**: React Navigation (Bottom Tabs + Native Stack)
-- **Token Security**: Expo SecureStore (hardware-backed encrypted storage)
-- **State & Client**: Custom typed REST client with retry and error normalization
+- **Token Security**: Expo SecureStore (hardware-backed encrypted keychain storage)
 - **Testing**: Jest, TypeScript typecheck (`tsc --noEmit`)
 
 ---
 
-## 4. Implemented Features
+## 📦 Project Structure
 
-### Operations Web Console (Streamlit)
-- **Operations Overview**:
-  - Compact KPI row: Total jobs, In Progress, Completed, Overdue risks.
-  - 14-day cumulative delivery trend chart (Plotly).
-  - Status breakdown donut chart.
-  - Technician workload capacity bar chart.
-  - Live filterable operational work order table (search, status, priority).
-  - Priority alerts drawer for imminent SLA breaches.
-- **Job Dispatching**:
-  - Full create work order form with customer selection, technician assignment, priority, address, and target due date.
-  - Interactive job inspector with complete dossier, customer phone, service history, and notes timeline.
-  - Live status transitions (`ASSIGNED` -> `IN_PROGRESS` -> `COMPLETED` -> `CANCELLED`).
-  - Technician reassignment and note logger.
-- **Field Schedule**:
-  - Date-grouped calendar view: Overdue, Today, Tomorrow, Upcoming (7 Days), and Completed Archive.
-  - Filter schedule by specialist.
-- **Technician Roster**:
-  - Complete specialist directory with contact info, skills, service zone, and assigned vehicle.
-  - Workload capacity bars and live availability toggle.
-  - Onboard new technician form.
-- **Customer Directory**:
-  - Facility profiles with emergency phone, SLA tiers, site access instructions, and active job counters.
-  - Register new customer site form.
-- **Performance Analytics**:
-  - SLA completion rate, overdue rate, average time to resolution.
-  - Technician load balancing and backlog matrix.
-- **AI Operational Intelligence**:
-  - Automated Priority Triage: Evaluates incoming symptom telemetry, SLA windows, and customer contract tiers using Gemini Flash or the deterministic fallback engine.
-  - Work Order & Field Note Synthesizer: Synthesizes complex technical notes into an executive briefing, key findings, and recommended next action.
-  - SLA & Workload Risk Auditor: Highlights capacity imbalances and unassigned emergency jobs.
-- **Platform Settings**:
-  - Real-time API gateway connectivity probe with latency benchmark.
-  - Demo role switcher (Operations Manager vs VP Operations).
-
-### Field Technician Mobile App (React Native + Expo)
-- **Authentication**: Secure login against Express API with token persistence in Expo SecureStore. Quick-fill demo button.
-- **My Jobs Screen**: Filterable work order list (`All Jobs`, `Assigned`, `In Progress`, `Completed`) with pull-to-refresh.
-- **Job Details**: Facility address, contact phone, target due date, site access notes, and field notes history.
-- **Lifecycle Actions**: "Arrived On Site — Start Job", "Mark Work Completed", and status dispatcher.
-- **Field Note Composer**: Logs technical readings, parts replaced, and customer sign-offs with double-submission protection.
-- **Technician Profile**: Active assignments, capacity, vehicle ID, network gateway switcher, and sign-out.
+```text
+fieldflow-workforce-platform/
+├── backend/                  # Node.js + Express + TypeScript REST API
+│   ├── api/                  # Vercel serverless function entrypoint (index.ts)
+│   ├── prisma/               # Database schema (schema.prisma) & seed script (seed.ts)
+│   ├── src/
+│   │   ├── controllers/      # Auth, Job, Technician, Customer, Dashboard, AI controllers
+│   │   ├── middleware/       # JWT Auth, Zod validation, Multer uploads, Error handling
+│   │   ├── routes/           # Express route definitions
+│   │   ├── schemas/          # Zod validation schemas
+│   │   ├── services/         # Business logic layer & Gemini AI adapter
+│   │   ├── app.ts            # Express application factory & middleware setup
+│   │   └── server.ts         # Local HTTP listener entrypoint
+│   ├── tests/                # Automated Jest integration tests
+│   └── vercel.json           # Vercel serverless deployment rewrites
+├── dashboard/                # Python Streamlit Operations Web Console
+│   ├── components/           # Sidebar, KPI cards, custom styles
+│   ├── services/             # Typed API client with auto-reconnect & token management
+│   ├── views/                # Overview, Jobs, Schedule, Technicians, Customers, Analytics, AI
+│   ├── app.py                # Main Streamlit dashboard application
+│   └── requirements.txt      # Python dependencies
+├── mobile/                   # React Native Expo Mobile Application
+│   ├── src/
+│   │   ├── screens/          # Login, My Jobs, Job Detail, Profile screens
+│   │   ├── services/         # Mobile REST client & SecureStore auth
+│   │   └── theme/            # Design system tokens (colors, typography, spacing)
+│   ├── App.tsx               # Root mobile application & navigation container
+│   └── package.json          # React Native dependencies
+└── .github/workflows/        # Automated CI/CD pipelines (ci.yml)
+```
 
 ---
 
-## 5. Seed Data & Demo Accounts
+## 💻 Local Quickstart
 
-The database comes pre-populated with realistic commercial service accounts, 4 specialists, and 16 operational work orders:
-
-| Role | Name | Email | Password | Details |
-| :--- | :--- | :--- | :--- | :--- |
-| **Manager** | Alex Rivera | `manager@fieldflow.io` | `Manager123!` | Operations Dispatcher (Web Console) |
-| **Admin** | Sarah Jenkins | `admin@fieldflow.io` | `Admin123!` | VP Operations (Full Admin Access) |
-| **Technician 1** | Marcus Vance | `marcus.vance@fieldflow.io` | `Tech123!` | Commercial HVAC & Chiller Specialist (VAN-101) |
-| **Technician 2** | Elena Rodriguez | `elena.rodriguez@fieldflow.io` | `Tech123!` | High Voltage Electrical & VFD Specialist (VAN-104) |
-| **Technician 3** | David Chen | `david.chen@fieldflow.io` | `Tech123!` | Commercial Hydronics & Backflow Certified (TRUCK-202) |
-| **Technician 4** | Sam Okafor | `sam.okafor@fieldflow.io` | `Tech123!` | Fire Protection & Life Safety Sprinklers (VAN-108) |
-
----
-
-## 6. Local Setup & Execution Guide
-
-### Prerequisites
-- Node.js v20 or v22
+### 1. Prerequisites
+- Node.js v20+ or v22+
 - Python 3.10+
-- PostgreSQL 16 (or local instance)
+- PostgreSQL 16 (or local Docker container)
 
-### 1. Backend Setup
+### 2. Run Backend API
 ```bash
 cd backend
 cp .env.example .env
 npm install
 
-# Push database schema to PostgreSQL
-npx prisma db push
-
-# Generate Prisma Client & seed realistic demo data
-npm run prisma:generate
+# Push Prisma schema and seed database
+npm run prisma:push
 npm run prisma:seed
 
-# Run tests
+# Run tests & start local server (Port 5000)
 npm test
-
-# Build TypeScript and start backend server (Port 5000)
-npm run build
-npm start
+npm run dev
 ```
-Verify the API is running at:
-- Health check: `http://localhost:5000/health`
-- Swagger Docs: `http://localhost:5000/api/docs`
+API endpoints will be active:
+- Health probe: `http://localhost:5000/health`
+- Swagger UI docs: `http://localhost:5000/api/docs`
 
-### 2. Streamlit Web Dashboard Setup
+### 3. Run Streamlit Operations Console
 ```bash
 cd dashboard
 pip install -r requirements.txt
 
-# Run dashboard test suite
-pytest tests -v
-
-# Launch Operations Console (Port 8501)
+# Launch Streamlit (Port 8501)
 streamlit run app.py
 ```
-Open `http://localhost:8501` in your browser.
+Open `http://localhost:8501` in your browser. The dashboard automatically connects to your local backend on port 5000 (or the Vercel cloud backend if local is stopped).
 
-### 3. React Native Mobile App Setup
+### 4. Run React Native Mobile App
 ```bash
 cd mobile
 npm install --legacy-peer-deps
 
-# Run typecheck and tests
-npm run typecheck
-npm test
-
-# Launch Expo development server
+# Start Expo dev server
 npx expo start
 ```
-- Press `w` to run in web browser.
-- Press `a` for Android emulator (automatically maps `http://10.0.2.2:5000/api`).
-- Scan the QR code with the **Expo Go** app on your physical iOS or Android phone connected to the same Wi-Fi network (configure your computer's LAN IP in the mobile login screen).
+- Press `w` to preview in your web browser.
+- Press `a` for Android Emulator.
+- Scan the QR code with **Expo Go** on your physical iOS or Android device.
 
 ---
 
-## 7. Automated Test Results (40 Tests Total)
+## 🧪 Test Suite Results (40 Automated Tests)
 
-### Backend Test Suite (Jest + Supertest): 27 Passed
-- `tests/health.test.ts`: Health probe, OpenAPI JSON spec, 404 envelope.
-- `tests/auth.test.ts`: Registration, duplicate email 409 conflict, login success, invalid credentials 401, `/api/auth/me`, unauthorized route protection.
-- `tests/jobs.test.ts`: Manager job creation, technician creation restriction (403), technician assignment, technician viewing assigned job, non-assigned technician tenant isolation (403), status update to `IN_PROGRESS`, note logging, completion, invalid status transition rejection (400).
-- `tests/dashboard.test.ts`: Aggregate KPI calculation from DB, 14-day trends, technician workload metrics, technician RBAC restriction.
-- `tests/ai.test.ts`: AI provider health check, critical keyword triage, low priority triage, job summarization, validation rejection.
+```text
+Backend Integration Suite (Jest + Supertest)
+  ✔ Health & Status Probes (3 tests passed)
+  ✔ Authentication & RBAC Authorization (6 tests passed)
+  ✔ Work Order Lifecycle & Status Transitions (9 tests passed)
+  ✔ Operational Dashboard KPIs & Aggregations (4 tests passed)
+  ✔ AI Provider Adapter & Fallback Engine (5 tests passed)
+  Total: 27 / 27 Passed (100%)
 
-### Dashboard Test Suite (Pytest): 7 Passed
-- `tests/test_api_client.py`: Initialization, offline resilience, zero-crash error handling.
-- `tests/test_metrics.py`: Status badge styling, priority badge styling, ISO timestamp formatting, overdue calculation logic, trend dataframe constructor.
+Dashboard Suite (Pytest)
+  ✔ API Client Resilience & Offline Handling (3 tests passed)
+  ✔ Metrics Calculation & SLA Overdue Logic (4 tests passed)
+  Total: 7 / 7 Passed (100%)
 
-### Mobile Test Suite (Jest + TypeScript): 6 Passed
-- `tests/ApiClient.test.ts`: Base URL normalization, SecureStore token storage/retrieval/deletion, network failure handling.
-- `tests/StatusTransitions.test.ts`: Forward lifecycle state machine transitions, priority and status theme tokens, overdue timestamp evaluation.
-
----
-
-## 8. Deployment Guide
-
-### Deploying the Express REST API (Render / Fly.io / Railway)
-1. Create a managed PostgreSQL database (Neon, Supabase, or Render Postgres).
-2. Set environment variables on your host:
-   - `DATABASE_URL`: Your production PostgreSQL connection string.
-   - `JWT_SECRET`: A secure random 64-character secret.
-   - `NODE_ENV`: `production`
-   - `PORT`: `5000` (or host assigned)
-   - `GEMINI_API_KEY`: (Optional) Your Google Gemini API key.
-3. Build and launch:
-   ```bash
-   npx prisma migrate deploy  # or npx prisma db push
-   npm run build
-   npm start
-   ```
-4. Verify `GET https://your-api.onrender.com/health` returns HTTP 200.
-
-### Deploying the Streamlit Web Console (Streamlit Community Cloud)
-1. Fork or push this repository to GitHub.
-2. Link the repository in **Streamlit Community Cloud** with entry point `dashboard/app.py`.
-3. In **App Settings -> Secrets**, configure:
-   ```toml
-   API_BASE_URL = "https://your-api.onrender.com/api"
-   ```
-4. Deploy the application.
+Mobile Suite (Jest)
+  ✔ SecureStore Token Management (3 tests passed)
+  ✔ Forward State Machine Transitions (3 tests passed)
+  Total: 6 / 6 Passed (100%)
+```
 
 ---
 
-## 9. Feature Status Matrix
+## 📄 License & Attribution
 
-| Component | Feature | Status | Verification |
-| :--- | :--- | :--- | :--- |
-| **Backend** | PostgreSQL Relational Schema & Prisma ORM | ✅ Implemented | Verified on PostgreSQL 16 |
-| **Backend** | JWT Auth & Role-Based Access Control (RBAC) | ✅ Implemented | Tested (Admin, Manager, Tech) |
-| **Backend** | Technician Tenant Isolation & Permissions | ✅ Implemented | Tested (403 on cross-tenant access) |
-| **Backend** | Zod Schema Validation & Centralized Error Handler | ✅ Implemented | Tested (400 Bad Request envelopes) |
-| **Backend** | AI Provider Adapter (Gemini + Rule-Based Fallback) | ✅ Implemented | Tested (Deterministic fallback active) |
-| **Backend** | OpenAPI / Swagger Documentation (`/api/docs`) | ✅ Implemented | Tested (Interactive Explorer live) |
-| **Dashboard** | Modern Enterprise B2B SaaS Styling (Inter) | ✅ Implemented | Inspected & verified via browser subagent |
-| **Dashboard** | Live KPI Cards & Plotly Analytics | ✅ Implemented | Tested against live PostgreSQL records |
-| **Dashboard** | Work Order Dispatching & Filtering | ✅ Implemented | Tested (Create, inspect, transition, note) |
-| **Dashboard** | Date-Grouped Field Schedule | ✅ Implemented | Tested (Overdue, Today, Tomorrow, Archive) |
-| **Dashboard** | Technician Roster & Capacity Balancing | ✅ Implemented | Tested (Capacity bars, availability toggle) |
-| **Dashboard** | AI Priority Triage & Notes Synthesizer | ✅ Implemented | Tested with live fallback response |
-| **Mobile** | Expo React Native Architecture & Navigation | ✅ Implemented | Tested with TypeScript & Jest |
-| **Mobile** | SecureStore Token Storage | ✅ Implemented | Tested with encrypted storage mock |
-| **Mobile** | Assigned Job Filtering & Status Dispatch | ✅ Implemented | Tested (Assigned -> In Progress -> Complete) |
-| **CI** | GitHub Actions Workflow for Backend, Web, Mobile | ✅ Implemented | Configured in `.github/workflows/ci.yml` |
-
----
-
-## 10. Known Limitations & Next Steps
-
-1. **Object Storage**: Photo attachments are currently stored on the local disk filesystem via Multer (`/uploads`). In production, this can be swapped with AWS S3 or Cloudflare R2 presigned URLs.
-2. **Push Notifications**: Real-time technician assignment alerts are currently fetched via pull-to-refresh. Integrating Expo Push Notifications with Firebase Cloud Messaging (FCM) is the next highest-value improvement.
-3. **Offline Sync Queue**: The mobile client handles network dropouts gracefully with informative error messages. Adding a local WatermelonDB / SQLite offline mutation queue would enable full offline capability in remote basements.
+Developed as an enterprise-grade fullstack & mobile operations showcase project by **Dhanya S**. Released under the **MIT License**.
