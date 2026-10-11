@@ -246,4 +246,4 @@ Mobile Suite (Jest)
 
 ## 📄 License & Attribution
 
-Developed as an enterprise-grade fullstack & mobile operations showcase project by **Dhanya S**. Released under the **MIT License**.
+Developed as an enterprise-grade fullstack & mobile operations showcase project by **Dhanya K**. Released under the **MIT License**.
