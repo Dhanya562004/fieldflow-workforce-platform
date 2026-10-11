@@ -4,7 +4,7 @@
   "description": "FieldFlow Operations REST API with Prisma, PostgreSQL, and Express TypeScript",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "prisma:generate": "prisma generate",
